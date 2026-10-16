@@ -19,6 +19,7 @@ const androidSchema = z.strictObject({
   "appium:autoGrantPermissions": z.boolean().optional(),
   "appium:disableWindowAnimation": z.boolean().optional(),
   "appium:appWaitActivity": z.string().optional(),
+  "appium:chromedriverAutodownload": z.boolean().optional(),
 });
 
 const iosSchema = z.strictObject({
