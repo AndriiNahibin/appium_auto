@@ -1,0 +1,8 @@
+{
+  "platformName": "iOS",
+  "appium:automationName": "XCUITest",
+  "appium:autoAcceptAlerts": true,
+  "appium:noReset": false,
+  "appium:fullReset": false,
+  "appium:newCommandTimeout": 120
+}

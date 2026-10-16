@@ -1,0 +1,41 @@
+{
+  "version": 1,
+  "skills": {
+    "debug-fix-failed-flaky-autotests": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/debug-fix-failed-flaky-autotests/SKILL.md",
+      "computedHash": "341a0e1f977574440073d265a25c1ea1ec7d5c6fd4ed62cbb0c12b4744d447b5"
+    },
+    "detect-useless-tests": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/detect-useless-tests/SKILL.md",
+      "computedHash": "968561600c8e0fb4ee919192b8b8f3f33e5c5f9dbb3c14f614d0d0d1cee87f0f"
+    },
+    "qa-automation-test-consolidation": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/qa-automation-test-consolidation/SKILL.md",
+      "computedHash": "d303c26e7dd8bad020bcb729831f178a4bf995937bb53a11f6368d15734e54b1"
+    },
+    "qa-review-pr": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/qa-review-pr/SKILL.md",
+      "computedHash": "04c51288b3b3f8572f922090314e92362de1f7f03acfbcd6d78f91d57cdaccee"
+    },
+    "qa-thinking": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/qa-thinking/SKILL.md",
+      "computedHash": "fc8ec768342bab6381ba30d06b73f8519102014e6037dab669ceca1366388c22"
+    },
+    "qa-write-test-cases": {
+      "source": "testomatio/skills",
+      "sourceType": "github",
+      "skillPath": "skills/qa-write-test-cases/SKILL.md",
+      "computedHash": "66463dcbfc413870987528eec4fe4c2662b2dad1c0e5b8f56a79b3758b01d5e1"
+    }
+  }
+}
