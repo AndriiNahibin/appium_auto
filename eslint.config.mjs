@@ -88,5 +88,10 @@ export default defineConfig(
       "@stylistic/space-infix-ops": "error",
       "@stylistic/no-multiple-empty-lines": ["error", { max: 2, maxEOF: 0 }],
     },
+  },
+  {
+    // command line scripts report to the console
+    files: ["scripts/**/*.ts"],
+    rules: { "no-console": "off" },
   }
 );

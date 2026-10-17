@@ -1,15 +1,13 @@
 import type { ESideMenuItem } from "../data/enum/ESideMenuItem";
-import DriverHelperFactory from "../helper/DriverHelperFactory";
+import { step } from "../decorator/step";
+import ElementHelper from "../helper/ElementHelper";
 
 export default class SideMenu {
   protected readonly menuButton = "~test-Menu";
 
-  protected get helper() {
-    return DriverHelperFactory.get();
-  }
-
+  @step((item: ESideMenuItem) => `Open '${item}' from the side menu`)
   async open(item: ESideMenuItem) {
-    await this.helper.tap(this.menuButton);
-    await this.helper.tap(`~test-${item}`);
+    await ElementHelper.tap(this.menuButton);
+    await ElementHelper.tap(`~test-${item}`);
   }
 }

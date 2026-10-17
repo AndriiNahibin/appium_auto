@@ -1,7 +1,7 @@
 import fs from "node:fs";
 import path from "node:path";
 import { z } from "zod";
-import { env } from "../config/env";
+import { env, requiredEnv } from "../config/env";
 import type { TPlatform } from "../types/TPlatform";
 
 // strict: unknown keys fail, so a typo like "appium:noRest" is not silently ignored by Appium.
@@ -32,14 +32,19 @@ const iosSchema = z.strictObject({
 const profileSchema = z.discriminatedUnion("platformName", [androidSchema, iosSchema]);
 
 export default class CapabilitiesHelper {
+  // capabilities for a local Appium server: config/<platform>.json + device and app from .env
   static getCapabilities(): WebdriverIO.Capabilities {
     return {
-      ...this.readProfile(env.PLATFORM),
-      "appium:app": path.resolve(env.APP_PATH),
+      ...this.getProfile(),
+      "appium:app": path.resolve(requiredEnv("APP_PATH")),
       "appium:deviceName": env.DEVICE_NAME,
       "appium:platformVersion": env.PLATFORM_VERSION,
       "appium:udid": env.UDID,
     };
+  }
+
+  static getProfile() {
+    return this.readProfile(env.PLATFORM);
   }
 
   private static readProfile(platform: TPlatform) {
