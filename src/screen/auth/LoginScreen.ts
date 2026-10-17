@@ -1,3 +1,5 @@
+import { step } from "../../decorator/step";
+import ElementHelper from "../../helper/ElementHelper";
 import BaseScreen from "../BaseScreen";
 
 export default class LoginScreen extends BaseScreen {
@@ -12,11 +14,12 @@ export default class LoginScreen extends BaseScreen {
     this.requiredElements = [this.usernameInput, this.passwordInput, this.loginButton];
   }
 
+  @step((username: string) => `Log in as '${username}'`)
   async login(username: string, password: string) {
-    await this.helper.type(this.usernameInput, username);
-    await this.helper.type(this.passwordInput, password);
+    await ElementHelper.type(this.usernameInput, username);
+    await ElementHelper.type(this.passwordInput, password);
     // the keyboard covers the LOGIN button
-    await this.helper.hideKeyboard();
-    await this.helper.tap(this.loginButton);
+    await this.device.hideKeyboard();
+    await ElementHelper.tap(this.loginButton);
   }
 }

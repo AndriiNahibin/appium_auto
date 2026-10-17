@@ -1,14 +1,21 @@
 import type { IDriverProvider } from "../interface/IDriverProvider";
-import LocalAppiumProvider from "./LocalAppiumProvider";
+import DriverProviderFactory from "./DriverProviderFactory";
 
 export default class DriverManager {
   private static driver?: WebdriverIO.Browser;
 
-  static async start(provider: IDriverProvider = new LocalAppiumProvider()) {
+  private static provider?: IDriverProvider;
+
+  static async start(provider: IDriverProvider = DriverProviderFactory.create()) {
     if (!this.driver) {
       this.driver = await provider.createDriver();
+      this.provider = provider;
     }
     return this.driver;
+  }
+
+  static isStarted() {
+    return Boolean(this.driver);
   }
 
   static get() {
@@ -18,12 +25,19 @@ export default class DriverManager {
     return this.driver;
   }
 
+  static async markSession(passed: boolean, reason: string) {
+    if (this.driver) {
+      await this.provider?.markSession?.(this.driver, passed, reason);
+    }
+  }
+
   static async stop() {
     if (!this.driver) {
       return;
     }
     const { driver } = this;
     this.driver = undefined;
+    this.provider = undefined;
     await driver.deleteSession();
   }
 }

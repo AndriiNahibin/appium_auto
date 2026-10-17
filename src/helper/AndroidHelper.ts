@@ -1,3 +1,4 @@
+import { step } from "../decorator/step";
 import BaseDriverHelper from "./BaseDriverHelper";
 
 export default class AndroidHelper extends BaseDriverHelper {
@@ -5,10 +6,7 @@ export default class AndroidHelper extends BaseDriverHelper {
     return this.getSessionCapability("appPackage");
   }
 
-  async back() {
-    await this.driver.back();
-  }
-
+  @step("Hide the keyboard")
   async hideKeyboard() {
     if (await this.driver.isKeyboardShown()) {
       await this.driver.hideKeyboard();
