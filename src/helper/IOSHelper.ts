@@ -2,6 +2,10 @@ import BaseDriverHelper from "./BaseDriverHelper";
 
 // not verified on a real iOS run yet: needs macOS
 export default class IOSHelper extends BaseDriverHelper {
+  protected getAppId() {
+    return this.getSessionCapability("bundleId");
+  }
+
   async back() {
     // iOS has no system Back button, so tap the first button in the navigation bar
     await this.tap("-ios class chain:**/XCUIElementTypeNavigationBar/XCUIElementTypeButton[1]");
