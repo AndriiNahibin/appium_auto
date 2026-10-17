@@ -20,6 +20,15 @@ export default abstract class BaseScreen {
     }
   }
 
+  async shouldBeClosed(ms = 10000) {
+    try {
+      await Promise.all(this.requiredElements.map((locator) => this.helper.waitForNotDisplayed(locator, ms)));
+    }
+    catch {
+      throw new Error(`${this.constructor.name} should be closed, but is still displayed after ${ms}ms`);
+    }
+  }
+
   async isOpen() {
     const visible = await Promise.all(this.requiredElements.map((locator) => this.helper.isVisible(locator)));
     return visible.every(Boolean);

@@ -6,7 +6,7 @@ import { importX } from "eslint-plugin-import-x";
 import tseslint from "typescript-eslint";
 
 export default defineConfig(
-  { ignores: ["node_modules/", ".claude/", "eslint.config.mjs"] },
+  { ignores: ["node_modules/", ".claude/", "allure-results/", "allure-report/", "logs/", "eslint.config.mjs", ".mocharc.js"] },
   js.configs.recommended,
   tseslint.configs.recommendedTypeChecked,
   importX.flatConfigs.recommended,

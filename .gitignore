@@ -4,3 +4,6 @@ apps/
 .env
 .idea/workspace.xml
 .idea/shelf/
+allure-results/
+allure-report/
+logs/
