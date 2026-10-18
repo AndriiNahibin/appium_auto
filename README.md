@@ -142,9 +142,25 @@ Variables from the command line override `.env`.
 
 ## Test cases
 
-| Test | File | What it checks |
-|---|---|---|
-| Sorting by price | `test/products/sortProductsByPrice.ts` | The whole product list is in price order after "low to high" and "high to low" |
-| Clear canvas | `test/drawing/clearCanvas.ts` | A drawn square is removed by Clear (painted pixels: 0 → more than 0 → 0) |
-| Screen rotation | `test/about/screenRotation.ts` | The page About opens in Chrome stays shown and usable after rotation to landscape |
+### Sorting by price — `test/products/sortProductsByPrice.ts`
+1. Log in as `standard_user`.
+2. Sort the products by "Price (low to high)" (and in the second test by "Price (high to low)").
+3. Scroll through the whole list and collect the prices.
 
+**Expected:** the prices go in ascending (descending) order.
+
+### Clear canvas — `test/drawing/clearCanvas.ts`
+1. Log in and open Drawing from the side menu. The canvas is empty.
+2. Draw a square.
+3. Tap Clear.
+
+**Expected:** after drawing the canvas has painted pixels, after Clear it is empty again.
+
+### Screen rotation — `test/about/screenRotation.ts` (Android only)
+About opens saucelabs.com in Chrome; the app itself is locked to portrait, so the rotation is checked in Chrome.
+1. Log in and open About from the side menu. Chrome opens saucelabs.com in portrait.
+2. Rotate the device to landscape.
+3. Tap the Chrome home button.
+
+**Expected:** the device is in landscape; Chrome still shows the same page, stretched to the landscape width;
+the home button opens the Chrome home page.
