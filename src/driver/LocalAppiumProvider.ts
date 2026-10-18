@@ -15,4 +15,8 @@ export default class LocalAppiumProvider implements IDriverProvider {
       capabilities: CapabilitiesHelper.getCapabilities(),
     });
   }
+
+  getDeviceName() {
+    return env.DEVICE_NAME ?? "local device";
+  }
 }

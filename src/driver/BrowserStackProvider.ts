@@ -34,9 +34,13 @@ export default class BrowserStackProvider implements IDriverProvider {
         osVersion: env.BROWSERSTACK_OS_VERSION,
         projectName: "appium_auto",
         buildName: env.BROWSERSTACK_BUILD ?? `local ${new Date().toISOString().slice(0, 16)}`,
-        sessionName: `${env.PLATFORM} tests`,
+        sessionName: `${env.PLATFORM} tests on ${this.getDeviceName()}`,
       },
     };
+  }
+
+  getDeviceName() {
+    return `${env.BROWSERSTACK_DEVICE} ${env.BROWSERSTACK_OS_VERSION}`;
   }
 
   async markSession(driver: WebdriverIO.Browser, passed: boolean, reason: string) {

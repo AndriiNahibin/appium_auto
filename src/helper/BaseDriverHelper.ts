@@ -1,11 +1,14 @@
 import { step } from "../decorator/step";
 import DriverManager from "../driver/DriverManager";
+import type { TOrientation } from "../types/TOrientation";
 
-// what differs between Android and iOS: the app id and the keyboard
+// what differs between Android and iOS: the app and browser ids, the keyboard; device state shared by both
 export default abstract class BaseDriverHelper {
   abstract hideKeyboard(): Promise<void>;
 
   protected abstract getAppId(): string;
+
+  protected abstract getBrowserId(): string;
 
   @step("Restart the app")
   async restartApp() {
@@ -16,6 +19,37 @@ export default abstract class BaseDriverHelper {
   @step("Close the app")
   async terminateApp() {
     await this.driver.terminateApp(this.getAppId());
+  }
+
+  // the default 500ms is not always enough for Chrome on a real device
+  @step("Close the browser")
+  async closeBrowser() {
+    await this.driver.terminateApp(this.getBrowserId(), undefined, { timeout: 5000 });
+  }
+
+  // 0 not installed, 1 not running, 2-4 running in the background or in the foreground
+  async isBrowserRunning() {
+    return (await this.driver.queryAppState(this.getBrowserId())) > 1;
+  }
+
+  @step((orientation: TOrientation) => `Rotate the device to ${orientation}`)
+  async rotate(orientation: TOrientation) {
+    await this.driver.setOrientation(orientation);
+  }
+
+  // orientation is a device setting: it survives the app restart, and a real device starts in its physical position
+  async resetOrientation() {
+    if (await this.getOrientation() !== "PORTRAIT") {
+      await this.rotate("PORTRAIT");
+    }
+  }
+
+  async getOrientation() {
+    return (await this.driver.getOrientation()).toUpperCase() as TOrientation;
+  }
+
+  async getWindowSize() {
+    return this.driver.getWindowSize();
   }
 
   protected get driver() {

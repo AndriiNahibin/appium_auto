@@ -14,6 +14,13 @@ export default class DriverManager {
     return this.driver;
   }
 
+  static getDeviceName() {
+    if (!this.provider) {
+      throw new Error("Driver is not started, call DriverManager.start() first");
+    }
+    return this.provider.getDeviceName();
+  }
+
   static isStarted() {
     return Boolean(this.driver);
   }

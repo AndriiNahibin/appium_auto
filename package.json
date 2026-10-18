@@ -10,6 +10,7 @@
     "test": "mocha 'test/**/*.ts'",
     "test:browserstack": "DRIVER_PROVIDER=browserstack mocha 'test/**/*.ts'",
     "test:browserstack:fresh": "npm run bs:upload && npm run test:browserstack",
+    "test:browserstack:all": "tsx scripts/browserstackRunAll.ts",
     "bs:upload": "tsx scripts/browserstackUpload.ts",
     "report": "allure generate allure-results && allure open allure-report",
     "typecheck": "tsc --noEmit",
