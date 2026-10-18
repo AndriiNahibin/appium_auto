@@ -9,6 +9,7 @@ import type { TPlatform } from "../types/TPlatform";
 const commonFields = {
   "appium:noReset": z.boolean().optional(),
   "appium:fullReset": z.boolean().optional(),
+  "appium:autoLaunch": z.boolean().optional(),
   "appium:newCommandTimeout": z.number().int().positive().optional(),
 };
 
@@ -32,7 +33,6 @@ const iosSchema = z.strictObject({
 const profileSchema = z.discriminatedUnion("platformName", [androidSchema, iosSchema]);
 
 export default class CapabilitiesHelper {
-  // capabilities for a local Appium server: config/<platform>.json + device and app from .env
   static getCapabilities(): WebdriverIO.Capabilities {
     return {
       ...this.getProfile(),

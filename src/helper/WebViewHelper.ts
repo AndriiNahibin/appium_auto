@@ -2,7 +2,6 @@ import { step } from "../decorator/step";
 import DriverManager from "../driver/DriverManager";
 
 export default class WebViewHelper {
-  // runs a script inside the first WebView and always returns to the native context
   @step("Run a script in the WebView")
   static async execute(script: string, ms = 10000) {
     const driver = DriverManager.get();

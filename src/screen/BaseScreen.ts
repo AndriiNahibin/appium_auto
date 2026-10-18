@@ -5,7 +5,6 @@ import type { TLocator } from "../types/TLocator";
 export default abstract class BaseScreen {
   protected requiredElements: TLocator[] = [];
 
-  // platform specific actions: keyboard, app lifecycle
   protected get device() {
     return DriverHelperFactory.get();
   }

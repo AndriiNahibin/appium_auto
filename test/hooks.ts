@@ -1,4 +1,4 @@
-import { attachment, ContentType } from "allure-js-commons";
+import { attachment, ContentType, parameter } from "allure-js-commons";
 import type { Context, RootHookObject } from "mocha";
 import { env } from "../src/config/env";
 import AppiumServer from "../src/driver/AppiumServer";
@@ -17,17 +17,26 @@ export const mochaHooks: RootHookObject = {
   },
 
   async beforeEach() {
-    await DriverHelperFactory.get().restartApp();
+    // otherwise the report merges runs of a test on different devices as its retries
+    await parameter("Device", DriverManager.getDeviceName());
+    const device = DriverHelperFactory.get();
+    await device.resetOrientation();
+    await device.restartApp();
   },
 
   async afterEach(this: Context) {
-    if (this.currentTest?.state !== "failed") {
-      return;
+    if (this.currentTest?.state === "failed") {
+      failedTests.push(this.currentTest.fullTitle());
+      const driver = DriverManager.get();
+      await attachment("Screenshot", Buffer.from(await driver.takeScreenshot(), "base64"), ContentType.PNG);
+      await attachment("Page source", await driver.getPageSource(), ContentType.XML);
     }
-    failedTests.push(this.currentTest.fullTitle());
-    const driver = DriverManager.get();
-    await attachment("Screenshot", Buffer.from(await driver.takeScreenshot(), "base64"), ContentType.PNG);
-    await attachment("Page source", await driver.getPageSource(), ContentType.XML);
+    // after the screenshot, so it shows the failure as it was. A link opened by a test (About) leaves the browser
+    // running in the background, and then the next WebView test (Drawing) fails with a tainted canvas error
+    const device = DriverHelperFactory.get();
+    if (await device.isBrowserRunning()) {
+      await device.closeBrowser();
+    }
   },
 
   async afterAll() {
@@ -38,8 +47,11 @@ export const mochaHooks: RootHookObject = {
       if (DriverManager.isStarted()) {
         const reason = failedTests.length ? `Failed: ${failedTests.join("; ")}` : "All tests passed";
         await DriverManager.markSession(failedTests.length === 0, reason);
+        const device = DriverHelperFactory.get();
+        // a local device stays as it was before the run
+        await device.resetOrientation();
         // the session video then ends on a closed app
-        await DriverHelperFactory.get().terminateApp();
+        await device.terminateApp();
       }
     }
     finally {

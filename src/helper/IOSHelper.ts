@@ -7,6 +7,10 @@ export default class IOSHelper extends BaseDriverHelper {
     return this.getSessionCapability("bundleId");
   }
 
+  protected getBrowserId() {
+    return "com.apple.mobilesafari";
+  }
+
   @step("Hide the keyboard")
   async hideKeyboard() {
     if (await this.driver.isKeyboardShown()) {
@@ -14,4 +18,5 @@ export default class IOSHelper extends BaseDriverHelper {
       await this.driver.execute("mobile: hideKeyboard", { keys: ["Done", "Return"] });
     }
   }
+
 }

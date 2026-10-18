@@ -25,7 +25,6 @@ export default class GestureHelper {
     })), 300);
   }
 
-  // one finger: down on the first point, move through the rest (each move takes moveMs), up on the last one
   private static async touch(points: TPoint[], moveMs: number) {
     const [first, ...rest] = points;
     if (!first) {

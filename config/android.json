@@ -5,6 +5,7 @@
   "appium:disableWindowAnimation": true,
   "appium:noReset": false,
   "appium:fullReset": false,
+  "appium:autoLaunch": false,
   "appium:newCommandTimeout": 120,
   "appium:appWaitActivity": "com.swaglabsmobileapp.*",
   "appium:chromedriverAutodownload": true
