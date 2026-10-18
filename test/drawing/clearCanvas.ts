@@ -10,7 +10,7 @@ describe("Drawing. Clear canvas", () => {
     await productsScreen.menu.open(ESideMenuItem.DRAWING);
     const drawingScreen = new DrawingScreen();
     await drawingScreen.shouldBeOpen();
-    expect(await drawingScreen.getPaintedPixelsCount(), "painted pixels before dr awing").to.equal(0);
+    expect(await drawingScreen.getPaintedPixelsCount(), "painted pixels before drawing").to.equal(0);
 
     await drawingScreen.drawSquare();
     // otherwise a broken drawing would make the clear check below pass for nothing

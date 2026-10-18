@@ -7,8 +7,12 @@ type TTitle = string | ((...args: never[]) => string);
 export function step(title: TTitle) {
   return function <This, Args extends unknown[], Return>(method: (this: This, ...args: Args) => Promise<Return>) {
     return async function (this: This, ...args: Args): Promise<Return> {
-      const name = typeof title === "string" ? title : (title as unknown as (...values: Args) => string)(...args);
-      return allureStep(name, () => method.apply(this, args));
+      return allureStep(getStepName(title, args), () => method.apply(this, args));
     };
   };
+}
+
+// the title function may take fewer arguments than the method (a password is left out), so it is called untyped
+function getStepName(title: TTitle, args: unknown[]) {
+  return typeof title === "string" ? title : (title as (...values: unknown[]) => string)(...args);
 }

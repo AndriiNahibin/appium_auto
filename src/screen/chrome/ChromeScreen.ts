@@ -49,10 +49,18 @@ export default class ChromeScreen extends BaseScreen {
     const url = await this.getUrl();
     await ElementHelper.tap(this.homeButton);
     await DriverManager.get().waitUntil(
-      async () => !(await ElementHelper.isVisible(this.urlBar)) || await this.getUrl() !== url,
+      () => this.hasLeftPage(url),
       { timeout: ms, interval: 500, timeoutMsg: `Chrome is still on '${url}' after ${ms}ms` }
     );
     await ElementHelper.waitForDisplayed(this.anyChromeElement);
+  }
+
+  // a home page without the URL bar (the New Tab page) also means the page is left
+  private async hasLeftPage(url: string) {
+    if (!(await ElementHelper.isVisible(this.urlBar))) {
+      return true;
+    }
+    return await this.getUrl() !== url;
   }
 
   async getUrl() {

@@ -37,11 +37,8 @@ export default abstract class BaseDriverHelper {
     await this.driver.setOrientation(orientation);
   }
 
-  // orientation is a device setting: it survives the app restart, and a real device starts in its physical position
   async resetOrientation() {
-    if (await this.getOrientation() !== "PORTRAIT") {
-      await this.rotate("PORTRAIT");
-    }
+    await this.rotate("PORTRAIT");
   }
 
   async getOrientation() {

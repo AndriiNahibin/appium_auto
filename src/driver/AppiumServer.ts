@@ -1,6 +1,7 @@
 import { type ChildProcess, spawn } from "node:child_process";
 import fs from "node:fs";
 import path from "node:path";
+import got from "got";
 import { env } from "../config/env";
 
 const LOG_FILE = path.resolve("logs", "appium.log");
@@ -49,8 +50,9 @@ export default class AppiumServer {
 
   private static async isRunning() {
     try {
-      const response = await fetch(`${this.url}/status`, { signal: AbortSignal.timeout(2000) });
-      return response.ok;
+      // no retries: waitUntilRunning polls by itself, and a got retry would stretch every check
+      await got(`${this.url}/status`, { timeout: { request: 2000 }, retry: { limit: 0 } });
+      return true;
     }
     catch {
       return false;

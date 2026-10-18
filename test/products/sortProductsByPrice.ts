@@ -11,7 +11,7 @@ describe("Products. Sorting by price", () => {
       await productsScreen.sortBy(testData);
 
       const prices = (await productsScreen.getProducts()).map((product) => product.price);
-      const sortedPrices = sort(prices)[expected]();
+      const sortedPrices = expected === "asc" ? sort(prices).asc() : sort(prices).desc();
 
       expect(prices).to.have.length.greaterThan(1);
       expect(prices).to.deep.equal(sortedPrices);
